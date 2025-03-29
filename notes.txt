@@ -1,0 +1,47 @@
+Problem:
+  implement producer and consumer problem.
+
+  producer generates items and puts items into table
+  consumer picks up itemstable can only hold two items at the same time
+  When the table is full, producer will wait
+  when there are no items, consumer will wait
+  Semaphores must be used to synchronize producer and consumer
+  Mutual exclusion should be considered
+  Threads are to be used in producer and consumer programs. 
+    HOW? 
+    This instruction doesn't make much sense because they are supposed to be two separate processes
+    Perhaps multiple threads for producing for producer, and multiple threads for consuming for consumer
+
+Gemeral goals:
+  Avoid deadlock
+  Need a critical section
+  Need shared memory that both programs can access
+    POSIX shared memory
+  semaphores must be used to synchronize data
+  mutual exclusion is importeant
+    binary semaphore can be used using posix
+    or a mutex lock
+
+POSIX shared memory notes
+  Shared memory using memory-mapped files
+    associates the region of shared memory with a files
+    process must be create a shared memory objet using shm_open() system call
+
+      shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
+
+      name: specifies name of shared memory object, objects using the buffer must use thie name
+
+      O_CREAT | O_RDWR - subsequent parameters that specify that the shared memory object is 
+      to be created if it does not exist yet (O_CREAT) and that object is open for readinig and writing (O_RDWR)
+
+      0666 establishes directory permissions of shared memory object
+
+      shm_open() returns an integer file descriptor for shared_memory object
+      once objet is established, ftruncate() function is used to configure the size of the obejct in bytes
+      ftruncate(shm_fd, 4096); -sets object size to 4096 bytes.
+
+      mmap() function esatblishes a memory-mapped filed containing the shared_memory obejct, it also returns a point to the memory_mapped file that is used for 
+      accessing the shared memory object
+
+POSIX semaphore
+
