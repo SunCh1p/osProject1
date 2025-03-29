@@ -22,7 +22,7 @@ int main() {
     //pointer to shared memory object
     void* ptr;
 
-    //Open shared memory object
+    //open shared memory object
     shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
     if (shm_fd == -1) {
         std::cerr << "Error creating shared memory object!" << std::endl;
@@ -50,7 +50,7 @@ int main() {
         return 1;
     }
 
-    // Memory map the shared memory object
+    //memory map the shared memory object
     ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
     if (ptr == MAP_FAILED) {
         std::cerr << "Error mapping shared memory!" << std::endl;

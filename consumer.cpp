@@ -10,26 +10,26 @@
 int main() {
     srand(time(0));
 
-    // The size (in bytes) of shared memory object
+    //Size of hte memory buffer
     const int SIZE = 2 * sizeof(int);
 
-    // Name of the shared memory object
+    //name of shared memory object
     const char* name = "table";
 
     // Shared memory file descriptor
     int shm_fd;
 
-    // Pointer to shared memory object
+    //pointer to shared memory object
     void* ptr;
 
-    // Open the shared memory object
+    //open the shared memory object
     shm_fd = shm_open(name, O_RDONLY, 0666);
     if (shm_fd == -1) {
         std::cerr << "Error opening shared memory object!" << std::endl;
         return 1;
     }
 
-    // Memory map the shared memory object
+    //memory map the shared memory object
     ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);
     if (ptr == MAP_FAILED) {
         std::cerr << "Error mapping shared memory!" << std::endl;
@@ -53,7 +53,7 @@ int main() {
         return 1;
     }
 
-    //Consume items 20 times
+    //consume items 10 times
     for(int i = 0; i < 10; i++){
       //wait for items to be produced
       sem_wait(full);
