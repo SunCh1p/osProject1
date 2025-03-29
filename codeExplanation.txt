@@ -1,0 +1,29 @@
+Connor Blaha
+Programming assignment 1
+Operating systems
+March 28th, 2025
+
+This code has a producer and a consumer.
+They are separate processes that have a shared memory.
+The shared memory can contain 2 integers which the producer will set to a value called count.
+Count increments everytime the producer uses it.
+
+The way this works is that when you run the producer and consumer
+The producer will initialize the shared memory and semaphores,
+then it produce items for the table 10 times.
+Before it can produce an item in each iteration, it needs to check if the empty semaphore is locked
+If not, it proceeds. Then it checks the mutex, which is what is used to make sure the producer and consumer aren't modifying the shared memory at the same time.
+The consumer in our case never modifies the shared memory, but it does read from it so the shared memory table needs to be stable during that time period.
+After it is done waiting, the producer will wait a random amount of time between 1 and 3 seconds,
+produce the items, output that it produced the items, update the full semaphore that the table is full and 
+it will also update the mutex lock to ensure that the consumer can proceed it its own critical section.
+
+On the consumer side of things, it create the shared memory if it doesn't already exist,
+open the existing semaphores from the producer, then it will consume items 20 times.
+During this consumption loop, it will wait for the table to be full using the full semaphore,
+then it will wait on the mutex lock so it can proceed to its critical section,
+then it will wait a random amount of time between 1 and 3 seconds so it is easy to see the output.
+It will then "consume" the items. In our case, it doesn't modify them, just outputs it to terminal.
+Then it unlocks the mutex lock, signals that the table is empty and proceeds.
+
+When both of these processes are down, they closed the shared memory and unlink it if it isn't already unliked.
